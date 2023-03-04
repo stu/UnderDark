@@ -1,0 +1,45 @@
+#
+# example config, not used by game. game creates one in the below directories
+#
+# Linux : $(HOME)/.local/share/com.bloodycactus/underdark/udark.ini
+# Windows : $(APPDATA)\com.bloodycactus\underdark\udark.ini
+# Mac : ?
+# DOS : uses whats in current working directory.
+#
+[underdark]
+#first time info
+first_time = true
+# Mode 80x25, 80x28, 80x43, 80x50
+mode = 80x28
+# leave name empty for random, else set your name
+name =
+# auto pickup money when walking on it
+auto_get_money = true
+# auto open doors when walking into them
+auto_open_doors = true
+key_up = up
+key_down = down
+key_left = left
+key_right = right
+key_up_right = page_up
+key_up_left = home
+key_down_right = page_down
+key_down_left = end
+key_quit = Q
+key_ascend = >
+key_descend = <
+key_inventory = i
+key_open = O
+key_close = C
+key_cancel = escape
+key_pass = .
+key_pickup = ,
+key_version = V
+key_target = t
+key_fire = f
+key_loadout = l
+key_save = S
+
+[sdl]
+# sdl only (if you dont like how big it sets the screen, lower this number)
+max_font_size=28

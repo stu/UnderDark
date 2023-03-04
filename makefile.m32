@@ -1,0 +1,99 @@
+#
+# MINGW cross compile
+#
+
+ifeq ($(winx), WIN64)
+ARCH=x86_64
+SDL_LIBARCH=x64
+CPU=w64
+else
+ARCH=i686
+SDL_LIBARCH=x86
+CPU=w32
+endif
+
+CC=$(ARCH)-w64-mingw32-gcc
+INC=/usr/local/$(ARCH)-w64-mingw32
+CLANG_FLAGS=-gdwarf-4
+CFLAGS=-O3 -DNDEBUG -ggdb0 $(CLANG_FLAGS) -Wunused-variable -Wunused-const-variable -I$(INC)/include
+LFLAGS=-O3 -ggdb0 $(CLANG_FLAGS) -L$(INC)/lib
+ODIR=out.$(CPU)
+NAME=ud$(CPU)
+
+OBJS=$(ODIR)/main.o $(ODIR)/play.o  $(ODIR)/sdl_screen.o \
+	$(ODIR)/rnd.o $(ODIR)/dlist.o $(ODIR)/version.o $(ODIR)/message.o \
+	$(ODIR)/ini.o $(ODIR)/scores.o $(ODIR)/time.o $(ODIR)/strings.o \
+	$(ODIR)/news.o $(ODIR)/name.o $(ODIR)/dgen.o $(ODIR)/item.o \
+	$(ODIR)/keys.o $(ODIR)/death.o $(ODIR)/inv.o $(ODIR)/monster.o \
+	$(ODIR)/levup.o $(ODIR)/save.o $(ODIR)/save_ext.o $(ODIR)/load.o \
+	$(ODIR)/sdl.o
+
+################################################################################
+
+all: $(NAME)
+
+.phony: start pre clean verx monster.gen dist
+
+start: pre
+	rm -f $(ODIR)/monster.o
+	rm -f version.c
+
+# cross compile
+$(ODIR)/vers: pre vers.c
+	clang -O -ggdb3 vers.c -o $(ODIR)/vers
+
+$(ODIR)/bin2c: pre bin2c.c
+	clang -O -ggdb3 bin2c.c -o $(ODIR)/bin2c
+
+pre: $(ODIR)/.out
+
+$(ODIR)/.out:
+	mkdir -p $(ODIR)
+	touch $(ODIR)/.out
+
+verx: pre $(ODIR)/vers
+	$(ODIR)/vers
+	rm -f $(ODIR)/version.o
+
+version.c: verx
+version.h: verx
+
+inc_ini.h: pre $(ODIR)/bin2c udark.inx
+	$(ODIR)/bin2c udark.inx inc_ini>inc_ini.h
+	rm -f $(ODIR)/main.o
+inc_nws.h: $(ODIR)/bin2c news.txt
+	$(ODIR)/bin2c news.txt inc_nws>inc_nws.h
+	rm -f $(ODIR)/news.o
+inc_wlc.h: $(ODIR)/bin2c welcome.txt
+	$(ODIR)/bin2c welcome.txt inc_wlc>inc_wlc.h
+	rm -f $(ODIR)/news.o
+
+monster.c: monster.gen
+	rm -f $(ODIR)/monster.o
+
+$(ODIR)/monster.o: monster.gen monster.c
+$(ODIR)/version.o: verx version.c version.h
+
+$(NAME): start verx inc_nws.h inc_wlc.h inc_ini.h monster.c version.c version.h $(OBJS)
+	$(CC) $(LFLAGS) $(OBJS) -o $(NAME) -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -mwindows
+
+dist: $(NAME)
+	mkdir -p dist.win_$(SDL_LIBARCH)
+	rm -f dist.win_$(SDL_LIBARCH)/*
+	$(ARCH)-w64-mingw32-strip $(NAME).exe
+	upx -9 $(NAME).exe
+	cp $(NAME).exe dist.win_$(SDL_LIBARCH)
+	cp readme.txt dist.win_$(SDL_LIBARCH)
+	cp news.txt dist.win_$(SDL_LIBARCH)
+	cp welcome.txt dist.win_$(SDL_LIBARCH)
+	cp udark.inx dist.win_$(SDL_LIBARCH)/udark.ini
+	cp -f win/$(SDL_LIBARCH)/* dist.win_$(SDL_LIBARCH)
+	cp -f font.ttf dist.win_$(SDL_LIBARCH)
+
+clean:
+	rm -f $(ODIR)/*.o
+	rm -f $(NAME)
+	rm -f z\*.sav
+
+$(ODIR)/%.o : %.c
+	$(CC) $(CFLAGS) $< -c -o$@

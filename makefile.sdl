@@ -1,0 +1,89 @@
+#
+# GNU Make SDL
+#
+
+CC=clang
+CLANG_FLAGS=-gdwarf-4
+CFLAGS=-O3 -ggdb3 $(CLANG_FLAGS) -Wunused-variable -Wunused-const-variable
+LFLAGS=-O3 -ggdb3 $(CLANG_FLAGS)
+CPU=sdl
+ODIR=out.$(CPU)
+NAME=ud
+
+OBJS=$(ODIR)/main.o $(ODIR)/play.o  $(ODIR)/sdl_screen.o \
+	$(ODIR)/rnd.o $(ODIR)/dlist.o $(ODIR)/version.o $(ODIR)/message.o \
+	$(ODIR)/ini.o $(ODIR)/scores.o $(ODIR)/time.o $(ODIR)/strings.o \
+	$(ODIR)/news.o $(ODIR)/name.o $(ODIR)/dgen.o $(ODIR)/item.o \
+	$(ODIR)/keys.o $(ODIR)/death.o $(ODIR)/inv.o $(ODIR)/monster.o \
+	$(ODIR)/levup.o $(ODIR)/save.o $(ODIR)/save_ext.o $(ODIR)/load.o \
+	$(ODIR)/sdl.o
+
+################################################################################
+
+all: utils inc_ini.h version.c monster.c monster.c verx  $(NAME)
+
+.phony: pre clean verx monster.gen
+
+utils: $(ODIR)/vers $(ODIR)/bin2c
+
+$(ODIR)/vers: pre vers.c
+	$(CC) -O -ggdb3 vers.c -o $(ODIR)/vers
+
+$(ODIR)/bin2c: pre bin2c.c
+	$(CC) -O -ggdb3 bin2c.c -o $(ODIR)/bin2c
+
+pre: $(ODIR)/.out
+
+$(ODIR)/.out:
+	mkdir -p $(ODIR)
+	touch $(ODIR)/.out
+
+verx:
+	$(ODIR)/vers
+	rm -f $(ODIR)/version.o
+
+version.c: verx
+version.h: verx
+
+inc_ini.h: udark.inx
+	$(ODIR)/bin2c udark.inx inc_ini>inc_ini.h
+	rm -rf $(ODIR)/main.*
+
+inc_nws.h: news.txt
+	$(ODIR)/bin2c news.txt inc_nws>inc_nws.h
+	rm -rf $(ODIR)/news.*
+
+inc_wlc.h: welcome.txt
+	$(ODIR)/bin2c welcome.txt inc_wlc>inc_wlc.h
+	rm -rf $(ODIR)/news.*
+
+inc_fnt.h: font.ttf
+	$(ODIR)/bin2c font.ttf inc_fnt>inc_fnt.h
+	rm -rf $(ODIR)/sdl.*
+
+incs: inc_fnt.h inc_wlc.h inc_nws.h inc_ini.h version.c version.h
+
+monster.c: monster.gen
+	rm -f $(ODIR)/monster.o
+
+$(NAME): incs $(OBJS)
+	$(CC) $(LFLAGS) $(OBJS) -o $(NAME) -lSDL2 -lSDL2_ttf -lm
+
+dist:
+	mkdir -p dist.lnx
+	rm -f dist.lnx/*
+	upx -9 $(NAME)
+	cp $(NAME) dist.lnx
+	cp readme.txt dist.lnx
+	cp news.txt dist.lnx
+	cp welcome.txt dist.lnx
+	cp udark.inx dist.lnx/udark.ini
+	cp -f font.ttf dist.lnx
+
+clean:
+	rm -f $(ODIR)/*.o
+	rm -f $(NAME)
+	rm -f z\*.sav
+
+$(ODIR)/%.o : %.c
+	$(CC) $(CFLAGS) $< -c -o$@

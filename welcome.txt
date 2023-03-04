@@ -1,0 +1,37 @@
+As a first time player of `Underdark`, welcome!
+
+This is just a few things to note for first time players.
+
+1 - Check key configuration on the main game screen before you start
+    and note your movement keys (probably by default, arrow keys).
+
+    The game will tell you on the main screen and the configuration screen
+    if you have unconfigured keys.
+
+2 - Your `t`argetting key is for bows + wands. Target then `f`ire away!
+    You can only target monsters in your field of vision! Pressing `t`
+    multiple times will cycle through visible targets.
+
+3 - When you load in, you get a random player, you might want to
+    check your `i`nventory, and see what your starting with!
+
+4 - The `i`nventory screen is a bit of a catch-all, you can check your
+    stats, as well as level up (if possible) etc from this screen
+
+5 - `l`oadout toggle only swaps your two weapon hands, so you can equip
+    a bow and swap to a sword etc. It does an un-equip/equip so if you
+    have cursed items... your loadout is not going to swap correctly!
+
+6 - New players should look to start with Barbarian, that will give you the
+    easiest time.
+
+7 - Try and explore all of level 1 to find the best weapons and armour you can,
+    as level 1 is the tutorial level.  Once you get to level 2, it starts
+    to get nasty with enemy spell casters and ranged enemies!
+
+8 - Centipedes are the most dangerous enemy on level 1, they can poison you so
+    be careful how you approach them... (and poison wears off after a long
+    period of time)
+
+Have Fun
+`BloodyCactus`

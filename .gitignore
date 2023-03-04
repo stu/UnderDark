@@ -1,0 +1,8 @@
+version.c
+version.h
+monster.gen
+inc_fnt.h
+inc_nws.h
+inc_wlc.h
+inc_ini.h
+*.ttf

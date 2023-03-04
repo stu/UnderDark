@@ -1,0 +1,27 @@
+================================================================================
+=                                                                              =
+= Welcome to the Underdark Gazette!                                 Issue v0.2 =
+=   March 4th, 2023                                                            =
+=                                                                              =
+================================================================================
+
+
+`Whats New?`
+==========
+
+Whats changed since 0.1.013 ??
+Lots, this is a completely new version since the one I wrote back in 1998!
+
+No old code reused, all brand spanking new.
+
+`v0.2` 20230304 - Initial release
+- old codebase was 0.1, so were going to start at 0.2
+
+
+`Whats Old?`
+==========
+Nothing, its a brand new release!
+
+
+-BloodyCactus
+
