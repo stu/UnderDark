@@ -485,8 +485,10 @@ uint16_t GetDirectionKey(uContext *ctx, char *msg)
 {
 	uint16_t key;
 
+	toggle_swap_draw_to_backbuffer();
 	add_msg(ctx, "%s", msg);
 	draw_messages(ctx);
+	toggle_swap_draw_to_backbuffer();
 
 	while(1)
 	{
