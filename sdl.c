@@ -86,8 +86,7 @@ char *GetDataFile(char *fn)
 	}
 	else
 	{
-		q = calloc(1, 64);
-		strcpy(q, fn);
+		q = strdup(fn);
 	}
 
 	return q;
@@ -123,8 +122,7 @@ char *GetConfigurationFile(char *fn)
 	}
 	else
 	{
-		q = calloc(1, 64);
-		strcpy(q, fn);
+		q = strdup(fn);
 	}
 
 	return q;
