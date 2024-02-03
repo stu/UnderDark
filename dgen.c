@@ -75,14 +75,6 @@ static bool IsOkFillHere(uContext *ctx, uint16_t col, uint16_t row, uint8_t **ma
 	}
 
 	return false;
-
-//	if (col >= ctx->map->max_cols-1 || row >= ctx->map->max_rows-1)
-//		return false;
-//
-//	if (map[row][col] != 1)
-//		return false;
-//
-//	return true;
 }
 
 static void FloodFillLine(uContext *ctx, uint16_t col, uint16_t row, uint8_t **map)
@@ -184,7 +176,8 @@ static void cell_generation(uContext *ctx, uint8_t **grid, uint16_t r1_cutoff, u
 				for(cols_jj = -1; cols_jj <= 1; cols_jj++)
 				{
 					if(grid[r + rows_ii][c + cols_jj] != 1)
-					{     // floor
+					{
+						// floor
 						adjcount_r1++;
 					}
 				}
@@ -205,7 +198,8 @@ static void cell_generation(uContext *ctx, uint8_t **grid, uint16_t r1_cutoff, u
 					}
 
 					if(grid[rows_ii][cols_jj] != 1)
-					{         // floor
+					{
+						// floor
 						adjcount_r2++;
 					}
 				}
@@ -935,12 +929,6 @@ void add_monster(uContext *ctx)
 					m = GenMonster(ctx, ctx->locn.level);
 					assert(m != NULL);
 					BuildMonster(ctx, m, gr, gc);
-
-
-					// NOTE: boost monster life as timer so people dont keep scumming?
-					//m->life += ctx->mgen_count / 25;
-					// // or...
-					//m->life += (ctx->locn.level * 3);
 				}
 			}
 		}
