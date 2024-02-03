@@ -1518,8 +1518,9 @@ void ProcessMapTriggers(uContext *ctx, uint16_t r, uint16_t c)
 							}
 							else
 							{
-								add_msg(ctx, "You stepped on a beartrap, for `%"PRIi16"` damage, bleeding out.", damage);
-								DeathScreen(ctx, "bled out from a bear trap");
+								// should we get here in a spider we?
+								add_msg(ctx, "Your stuck, taking `%"PRIi16"` damage, bleeding out.", damage);
+								DeathScreen(ctx, "bled out from a spider web");
 							}
 							break;
 						case eT_BearTrap:
