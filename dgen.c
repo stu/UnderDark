@@ -1562,7 +1562,7 @@ void ProcessMapTriggers(uContext *ctx, uint16_t r, uint16_t c)
 							}
 							else
 							{
-								add_msg(ctx, "Rusty Spoons shoot up from above for `%"PRIi16"` damage, slicing you.", damage);
+								add_msg(ctx, "Rusty Spoons shoot out from above for `%"PRIi16"` damage, slicing you.", damage);
 								DeathScreen(ctx, "got tetanus from a rusty spoon");
 							}
 							break;
