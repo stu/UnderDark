@@ -1598,6 +1598,9 @@ void ProcessMapTriggers(uContext *ctx, uint16_t r, uint16_t c)
 								AddExperiece(ctx, m->xp);
 								KillMonster(ctx, mm);
 							}
+
+							// recursion, incase we teleport onto another trigger
+							return ProcessMapTriggers(ctx,ctx->locn.row, ctx->locn.col);
 							break;
 
 						case eT_TrapDoor:
