@@ -6,3 +6,12 @@ inc_nws.h
 inc_wlc.h
 inc_ini.h
 *.ttf
+out*
+dist*
+*.exe
+ud
+win
+.idea
+.flatpak-builder
+appimage
+appimage-resources

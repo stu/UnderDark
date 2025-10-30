@@ -3436,6 +3436,7 @@ void main_screen(uContext *ctx)
 		}
 
 		msg_hl(9, 4, HL_CLR, "`S`tart a new game as `%s` the %s %s", ctx->player->name, ascii_race_list[ctx->player->race], ascii_roles[ctx->player->counters[0].rounds]);
+		msg_hl(10, 4, HL_CLR, "`R`e-roll character");
 
 		msg_hl(12, 4, HL_CLR, "`H`ighscore table");
 		msg_hl(13, 4, HL_CLR, "Read the `N`ews");
@@ -3447,11 +3448,11 @@ void main_screen(uContext *ctx)
 
 		if(has_core == true)
 		{
-			msg_hl(20, 4, HL_CLR, "Select [`cshnwkq`]");
+			msg_hl(20, 4, HL_CLR, "Select [`csrhnwkq`]");
 		}
 		else
 		{
-			msg_hl(20, 4, HL_CLR, "Select [`shnwkq`]");
+			msg_hl(20, 4, HL_CLR, "Select [`srhnwkq`]");
 		}
 
 
@@ -3467,13 +3468,18 @@ void main_screen(uContext *ctx)
 		toggle_swap_draw_to_backbuffer();
 		restore_from_backbuffer();
 
-		key = gkey("cCsShHnNwWkKqQ");
+		key = gkey("cCsSrRhHnNwWkKqQ");
 
 		switch(key)
 		{
 			case 'k':
 			case 'K':
 				ConfigureKeys(ctx);
+				break;
+
+			case 'r':
+			case 'R':
+				RollPlayer(ctx, false);
 				break;
 
 			case 'q':

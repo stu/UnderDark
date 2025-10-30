@@ -32,27 +32,27 @@ OBJS=$(odir)/main.obj $(odir)/play.obj $(odir)/screen.obj &
 
 all: $(name)
 
-$(odir)/vers: vers.c
-	clang -O2 $< -o$@
+$(odir)/vers.exe: $(odir)/vers.obj
+	wcl386 -lpmodew -d0 -oneatx $< -fo=$(odir)/vers.obj -fe=$@
 
-$(odir)/bin2c: bin2c.c
-	clang -O2 $< -o$@
+$(odir)/bin2c.exe: $(odir)/bin2c.obj
+	wcl386 -lpmodew -d0 -oneatx $< -fo=$(odir)/bin2c.obj -fe=$@
 
-verx: $(odir)/vers .symbolic
-	$(odir)/vers
+verx: $(odir)/vers.exe .symbolic
+	$(odir)\\vers.exe
 
 pre: .symbolic
-	@if not exist $(odir)/con @mkdir $(odir)
+	@if not exist $(odir)\con @mkdir $(odir)
 
-inc_ini.h: $(ODIR)/bin2c udark.inx
-	$(ODIR)/bin2c udark.inx inc_ini>inc_ini.h
-	if exist $(ODIR)/main.obj rm $(ODIR)/main.obj
-inc_nws.h: $(ODIR)/bin2c news.txt
-	$(ODIR)/bin2c news.txt inc_nws>inc_nws.h
-	if exist $(ODIR)/news.obj rm $(ODIR)/news.obj
-inc_wlc.h: $(ODIR)/bin2c welcome.txt
-	$(ODIR)/bin2c welcome.txt inc_wlc>inc_wlc.h
-	if exist $(ODIR)/news.obj rm $(ODIR)/news.obj
+inc_ini.h: $(ODIR)/bin2c.exe udark.inx
+	$(ODIR)\\bin2c udark.inx inc_ini>inc_ini.h
+	if exist $(ODIR)\\main.obj del $(ODIR)\\main.obj
+inc_nws.h: $(ODIR)/bin2c.exe news.txt
+	$(ODIR)\\bin2c news.txt inc_nws>inc_nws.h
+	if exist $(ODIR)\\news.obj del $(ODIR)\\news.obj
+inc_wlc.h: $(ODIR)/bin2c.exe welcome.txt
+	$(ODIR)\\bin2c welcome.txt inc_wlc>inc_wlc.h
+	if exist $(ODIR)\\news.obj del $(ODIR)\\news.obj
 
 $(name): pre verx inc_ini.h inc_wlc.h inc_nws.h $(OBJS)
 	%create ud.lnk
@@ -66,30 +66,31 @@ $(name): pre verx inc_ini.h inc_wlc.h inc_nws.h $(OBJS)
 	@wlink @ud.lnk
 	%erase ud.lnk
 	@wstrip -q -n $(name)
-	@upx-bc -9 $(name)
+	@upx -9 $(name)
+	@pmwsetup /L0xFFFF /M1 /B0 $(NAME) /V4 /A4
 
 .after
-	@if exist ud.lnk @rm ud.lnk
+	@if exist ud.lnk @del ud.lnk
 
 .error
-	@if exist ud.lnk @rm ud.lnk
+	@if exist ud.lnk @del ud.lnk
 
 dist: .symbolic $(NAME)
-	@mkdir -p dist.dos
-	@rm -f dist.dos/*
+	@if not exist dist.dos\nul mkdir dist.dos
+	@del /y dist.dos\*.*>nul
 	@wstrip -q -n $(name)
-	@sauce -i $(name) -o dist.dos/$(name) -preset ud -autodate
-	@cp readme.txt dist.dos
-	@cp news.txt dist.dos
-	@cp welcome.txt dist.dos
-	@cp udark.inx dist.dos/udark.ini
+	@sauce -i $(name) -o dist.dos\$(name) -preset ud
+	@copy readme.txt dist.dos
+	@copy news.txt dist.dos
+	@copy welcome.txt dist.dos
+	@copy udark.inx dist.dos\udark.ini
 
 clean: .symbolic
-	@if exist $(ODIR)/*.obj rm $(ODIR)/*.obj
-	@if exist $(name) rm $(name)
-	@if exist *.lnk rm *.lnk
-	@if exist *.bin rm *.bin
-	@if exist *.sav rm *.sav
+	@if exist $(ODIR)\*.obj del $(ODIR)\*.obj>nul
+	@if exist $(name) del $(name)>nul
+	@if exist *.lnk del *.lnk>nul
+	@if exist *.bin del *.bin>nul
+	@if exist *.sav del *.sav>nul
 
 .cpp.obj : .AUTODEPEND
 	@echo Compiling $^&

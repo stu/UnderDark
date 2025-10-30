@@ -1600,7 +1600,8 @@ void ProcessMapTriggers(uContext *ctx, uint16_t r, uint16_t c)
 							}
 
 							// recursion, incase we teleport onto another trigger
-							return ProcessMapTriggers(ctx,ctx->locn.row, ctx->locn.col);
+							ProcessMapTriggers(ctx,ctx->locn.row, ctx->locn.col);
+							return;
 							break;
 
 						case eT_TrapDoor:

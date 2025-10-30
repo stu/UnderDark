@@ -79,7 +79,11 @@ $(NAME): start verx inc_nws.h inc_wlc.h inc_ini.h monster.c version.c version.h 
 
 dist: $(NAME)
 	mkdir -p dist.win_$(SDL_LIBARCH)
-	rm -f dist.win_$(SDL_LIBARCH)/*
+	mkdir -p dist.win_$(SDL_LIBARCH)/$(NAME).exe.local
+	touch dist.win_$(SDL_LIBARCH)/x.ini
+	touch dist.win_$(SDL_LIBARCH)/x.txt
+	touch dist.win_$(SDL_LIBARCH)/x.exe
+	rm dist.win_$(SDL_LIBARCH)/*.exe dist.win_$(SDL_LIBARCH)/*.txt dist.win_$(SDL_LIBARCH)/*.ini
 	$(ARCH)-w64-mingw32-strip $(NAME).exe
 	upx -9 $(NAME).exe
 	cp $(NAME).exe dist.win_$(SDL_LIBARCH)
@@ -87,13 +91,12 @@ dist: $(NAME)
 	cp news.txt dist.win_$(SDL_LIBARCH)
 	cp welcome.txt dist.win_$(SDL_LIBARCH)
 	cp udark.inx dist.win_$(SDL_LIBARCH)/udark.ini
-	cp -f win/$(SDL_LIBARCH)/* dist.win_$(SDL_LIBARCH)
-	cp -f font.ttf dist.win_$(SDL_LIBARCH)
+	cp -f win/$(SDL_LIBARCH)/* dist.win_$(SDL_LIBARCH)/$(NAME).exe.local
 
 clean:
 	rm -f $(ODIR)/*.o
 	rm -f $(NAME)
-	rm -f z\*.sav
+	rm -f *.sav
 
 $(ODIR)/%.o : %.c
 	$(CC) $(CFLAGS) $< -c -o$@

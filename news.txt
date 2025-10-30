@@ -1,7 +1,7 @@
 ================================================================================
 =                                                                              =
-= Welcome to the Underdark Gazette!                                 Issue v0.2 =
-=   March 4th, 2023                                                            =
+= Welcome to the Underdark Gazette!                                 Issue v0.3 =
+=   October 30th, 2025                                                         =
 =                                                                              =
 ================================================================================
 
@@ -9,6 +9,17 @@
 `Whats New?`
 ==========
 
+`0.3` 20251030
+============
+* Fixed screen update with directional requests
+* Teleports were not recursive (now they are!)
+* Trap messages were inconsistent.
+* No screen update on door close n MS-DOS
+* Added character re-roll option on main screen
+
+
+`0.2`
+===
 Whats changed since 0.1.013 ??
 Lots, this is a completely new version since the one I wrote back in 1998!
 
